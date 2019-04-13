@@ -4,4 +4,4 @@
 
 ### 应用截图
 
-![image](screenshot/text_banner.gif)
+<img src="https://github.com/HaowenLee/TextBanner/blob/master/screenshot/text_banner.gif" width="360" alt="TextBanner效果图"/>
