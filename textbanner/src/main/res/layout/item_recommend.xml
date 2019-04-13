@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingTop="9dp"
+    android:paddingBottom="9dp">
+
+    <LinearLayout
+        android:id="@+id/llItem1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FF00"
+            android:paddingLeft="3.5dp"
+            android:paddingRight="3.5dp"
+            android:textColor="#FF0000"
+            android:textSize="12sp"
+            tools:text="看书" />
+
+        <TextView
+            android:id="@+id/tvTitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            tools:text="恭喜李朴林老师首开专栏开课啦！" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llItem2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTag2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FF00"
+            android:paddingLeft="3.5dp"
+            android:paddingRight="3.5dp"
+            android:textColor="#FF0000"
+            android:textSize="12sp"
+            tools:text="活动" />
+
+        <TextView
+            android:id="@+id/tvTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            tools:text="签到抽奖活动正式开启大家快来参与啊！" />
+
+    </LinearLayout>
+
+</LinearLayout>
