@@ -6,7 +6,7 @@
 
 ## 应用截图
 
-<img src="https://github.com/HaowenLee/TextBanner/blob/master/screenshot/text_banner.gif" width="360" alt="TextBanner效果图"/>
+<img src="https://github.com/HaowenLee/TextBanner/blob/master/images/text_banner.gif" width="360" alt="TextBanner效果图"/>
 
 #### 步骤 1. 将JitPack存储库添加到构建文件中
 
