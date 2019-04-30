@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="me.haowen.sample.MainActivity">
+        <activity android:name="me.haowen.sample.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

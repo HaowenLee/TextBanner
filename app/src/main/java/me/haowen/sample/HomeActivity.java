@@ -3,6 +3,7 @@ package me.haowen.sample;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import me.haowen.sample.adapter.CustomAdapter;
 import me.haowen.textbanner.TextBanner;
 import me.haowen.textbanner.adapter.SimpleTextBannerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     /**
      * 热搜词数据
@@ -43,8 +44,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
+        initSimpleAdapter();
+        initCustomAdapter();
+    }
+
+    /**
+     * 简单的Adapter
+     */
+    private void initSimpleAdapter() {
         TextBanner textBanner = findViewById(R.id.textBanner);
         final SimpleTextBannerAdapter simpleAdapter = new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArray));
         textBanner.setAdapter(simpleAdapter);
@@ -55,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 simpleAdapter.setData(Arrays.asList(updateHotWordArray));
             }
         });
-
-        initCustomAdapter();
     }
 
     /**
@@ -73,5 +80,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextBanner textBanner = findViewById(R.id.customTextBanner);
         textBanner.setAdapter(new CustomAdapter(this, data));
+
+        textBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(HomeActivity.this, "详细列表页", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
