@@ -53,4 +53,4 @@ textBanner.setAdapter(new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArr
 | 名称 | 格式 | 描述 |
 | ------ | ------ | ------ |
 | duration | int | 切换动画的时长（单位毫秒） |
-| delayTIme | int | 停留时长（单位毫秒） |
+| delayTime | int | 停留时长（单位毫秒） |
