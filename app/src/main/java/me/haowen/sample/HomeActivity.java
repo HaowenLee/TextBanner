@@ -41,10 +41,16 @@ public class HomeActivity extends AppCompatActivity {
             "哆啦A梦"
     };
 
+    private TextBanner textBanner;
+    private TextBanner customTextBanner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        textBanner = findViewById(R.id.textBanner);
+        customTextBanner = findViewById(R.id.customTextBanner);
 
         initSimpleAdapter();
         initCustomAdapter();
@@ -54,7 +60,6 @@ public class HomeActivity extends AppCompatActivity {
      * 简单的Adapter
      */
     private void initSimpleAdapter() {
-        TextBanner textBanner = findViewById(R.id.textBanner);
         final SimpleTextBannerAdapter simpleAdapter = new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArray));
         textBanner.setAdapter(simpleAdapter);
 
@@ -62,15 +67,16 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 simpleAdapter.setData(Arrays.asList(updateHotWordArray));
+                Toast.makeText(HomeActivity.this, "数据刷新", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     /**
-     * 自定义的Custom
+     * 自定义的Adapter
      */
     private void initCustomAdapter() {
-        List<Pair<String, String>> data = new ArrayList<>();
+        final List<Pair<String, String>> data = new ArrayList<>();
         data.add(new Pair<>("精华", "初入汉服坑的小仙女看过来"));
         data.add(new Pair<>("精华", "国产马自达3，黑科技，3.3L"));
         data.add(new Pair<>("超赞", "最惨855手机，发货至今"));
@@ -78,14 +84,34 @@ public class HomeActivity extends AppCompatActivity {
         data.add(new Pair<>("精华", "蓝鲫和九一八咋搭配才好用"));
         data.add(new Pair<>("超赞", "五一去哪？大数据告诉你"));
 
-        TextBanner textBanner = findViewById(R.id.customTextBanner);
-        textBanner.setAdapter(new CustomAdapter(this, data));
-
-        textBanner.setOnClickListener(new View.OnClickListener() {
+        CustomAdapter adapter = new CustomAdapter(this, data);
+        customTextBanner.setAdapter(adapter);
+        // 设置监听事件
+        adapter.setItemClickListener(new CustomAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "详细列表页", Toast.LENGTH_SHORT).show();
+            public void onItemClick(int position) {
+                Toast.makeText(HomeActivity.this, data.get(position).second, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * 增加体验
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        textBanner.startAutoPlay();
+        customTextBanner.startAutoPlay();
+    }
+
+    /**
+     * 增加体验
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        textBanner.stopAutoPlay();
+        customTextBanner.stopAutoPlay();
     }
 }

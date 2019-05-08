@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.Adapter;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -20,13 +19,13 @@ import androidx.annotation.Nullable;
 public class TextBanner extends FrameLayout {
 
     /**
+     * 交替的View个数
+     */
+    private static final int SIZE = 2;
+    /**
      * 当前的位置索引
      */
     private int currentPosition = 0;
-    /**
-     * 上次动画开始时间戳
-     */
-    private long lastTimeMillis;
     /**
      * 停留时长
      */
@@ -38,20 +37,27 @@ public class TextBanner extends FrameLayout {
     /**
      * 两个View交替出现
      */
-    private View viewItemOut, viewItemIn;
+    private View viewFirst, viewSecond;
     /**
-     * 动画
+     * 动画（出现、消失）
      */
-    private Animation animOut, animIn;
-
+    private Animation animAppear, animDisappear;
     /**
      * 数据适配器
      */
     private Adapter mAdapter;
+
+    private WeakHandler mHandler = new WeakHandler();
     /**
-     * 交替的View个数
+     * 轮播的定时任务：当页数大于1时轮播
      */
-    private static final int SIZE = 2;
+    private Runnable task = new Runnable() {
+        @Override
+        public void run() {
+            updateTipAndPlayAnimation();
+            mHandler.postDelayed(this, mDelayTime);
+        }
+    };
 
     public TextBanner(Context context) {
         this(context, null);
@@ -76,23 +82,8 @@ public class TextBanner extends FrameLayout {
      * 初始化动画
      */
     private void initAnimation() {
-        animOut = newAnimation(0, -1);
-        animIn = newAnimation(1, 0);
-        animIn.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                updateTipAndPlayAnimationWithCheck();
-            }
-        });
+        animAppear = newAnimation(0, -1);
+        animDisappear = newAnimation(1, 0);
     }
 
     /**
@@ -106,50 +97,8 @@ public class TextBanner extends FrameLayout {
         Animation anim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
                 Animation.RELATIVE_TO_SELF, fromYValue, Animation.RELATIVE_TO_SELF, toYValue);
         anim.setDuration(mDuration);
-        anim.setStartOffset(mDelayTime);
         anim.setInterpolator(new DecelerateInterpolator());
         return anim;
-    }
-
-    /**
-     * 开始下一次动画（并做时间校验）
-     */
-    private void updateTipAndPlayAnimationWithCheck() {
-        // （代码的耗时，保证动画结束的时间<动画时长和停留时长）
-        if (System.currentTimeMillis() - lastTimeMillis < mDuration + mDelayTime) {
-            return;
-        }
-        updateTipAndPlayAnimation();
-    }
-
-    /**
-     * 动画替换下一个View
-     */
-    private void updateTipAndPlayAnimation() {
-        currentPosition++;
-        if (currentPosition % 2 == 0) {
-            bindViewData(viewItemOut, currentPosition % mAdapter.getCount());
-            viewItemIn.startAnimation(animOut);
-            viewItemOut.startAnimation(animIn);
-            this.bringChildToFront(viewItemIn);
-        } else {
-            bindViewData(viewItemIn, currentPosition % mAdapter.getCount());
-            viewItemOut.startAnimation(animOut);
-            viewItemIn.startAnimation(animIn);
-            this.bringChildToFront(viewItemOut);
-        }
-        // 记录动画的开始时间
-        lastTimeMillis = System.currentTimeMillis();
-    }
-
-    /**
-     * 数据绑定
-     *
-     * @param convertView View
-     * @param position    位置
-     */
-    private void bindViewData(View convertView, int position) {
-        mAdapter.onBindViewData(convertView, position);
     }
 
     /**
@@ -181,25 +130,26 @@ public class TextBanner extends FrameLayout {
             return;
         }
         createViews();
-        bindViewData(viewItemOut, currentPosition);
+        bindViewData(viewFirst, currentPosition);
         if (mAdapter.getCount() < SIZE) {
             return;
         }
-        updateTipAndPlayAnimation();
+        startAutoPlay();
     }
 
     /**
-     * 动画清除，View去除
+     * 动画清除，View去除,定时任务去除
      */
     private void reset() {
-        if (viewItemIn != null) {
-            viewItemIn.clearAnimation();
+        if (viewSecond != null) {
+            viewSecond.clearAnimation();
         }
-        if (viewItemOut != null) {
-            viewItemOut.clearAnimation();
+        if (viewFirst != null) {
+            viewFirst.clearAnimation();
         }
         clearAnimation();
         removeAllViews();
+        stopAutoPlay();
         currentPosition = 0;
     }
 
@@ -207,10 +157,104 @@ public class TextBanner extends FrameLayout {
      * 生成View并添加容器
      */
     private void createViews() {
-        viewItemOut = mAdapter.onCreateView(this);
-        viewItemIn = mAdapter.onCreateView(this);
-        addView(viewItemIn);
-        addView(viewItemOut);
+        viewFirst = mAdapter.onCreateView(this);
+        viewSecond = mAdapter.onCreateView(this);
+        addView(viewSecond);
+        addView(viewFirst);
+    }
+
+    /**
+     * 数据绑定
+     *
+     * @param convertView View
+     * @param position    位置
+     */
+    private void bindViewData(View convertView, int position) {
+        mAdapter.onBindViewData(convertView, position);
+    }
+
+    /**
+     * 启动自动轮播
+     */
+    public void startAutoPlay() {
+        mHandler.removeCallbacks(task);
+        mHandler.postDelayed(task, mDelayTime);
+    }
+
+    /**
+     * 停止自动轮播
+     */
+    public void stopAutoPlay() {
+        mHandler.removeCallbacks(task);
+    }
+
+    /**
+     * 动画替换下一个View
+     */
+    private void updateTipAndPlayAnimation() {
+        checkAdapterNotNull();
+        if (mAdapter.getCount() == 0) {
+            return;
+        }
+        currentPosition++;
+        if (currentPosition % SIZE == 0) {
+            bindViewData(viewFirst, currentPosition % mAdapter.getCount());
+            startAnimation(viewFirst, viewSecond);
+            this.bringChildToFront(viewSecond);
+        } else {
+            bindViewData(viewSecond, currentPosition % mAdapter.getCount());
+            startAnimation(viewSecond, viewFirst);
+            this.bringChildToFront(viewFirst);
+        }
+    }
+
+    /**
+     * 检查是否设置了 {@link Adapter}
+     */
+    private void checkAdapterNotNull() {
+        if (mAdapter == null) {
+            throw new NullPointerException("TextBanner has no adapter.");
+        }
+    }
+
+    /**
+     * 动画
+     *
+     * @param showView    出现的View
+     * @param dismissView 隐藏的View
+     */
+    private void startAnimation(final View showView, final View dismissView) {
+        // 出现
+        showView.startAnimation(animDisappear);
+        showView.setVisibility(VISIBLE);
+
+        // 消失
+        dismissView.startAnimation(animAppear);
+        dismissView.setVisibility(VISIBLE);
+        animAppear.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                dismissView.setVisibility(GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    /**
+     * 数据观察
+     */
+    private interface Observable {
+        /**
+         * 数据改变
+         */
+        void onChange();
     }
 
     /**
@@ -263,15 +307,5 @@ public class TextBanner extends FrameLayout {
          * @param position    位置
          */
         public abstract void onBindViewData(@NonNull View convertView, int position);
-    }
-
-    /**
-     * 数据观察
-     */
-    private interface Observable {
-        /**
-         * 数据改变
-         */
-        void onChange();
     }
 }

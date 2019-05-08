@@ -25,7 +25,7 @@ allprojects {
 
 ```
 dependencies {
-        implementation 'com.github.HaowenLee:TextBanner:1.0.0'
+        implementation 'com.github.HaowenLee:TextBanner:1.0.1'
 }
 
 ```
@@ -44,8 +44,30 @@ dependencies {
 ```
 
 #### 步骤 4. 在Activity或者Fragment中配置Adapter
+
 ```
 textBanner.setAdapter(new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArray)));
+```
+
+#### 步骤 5. 增加体验（可选）
+
+```
+/**
+ * 体验优化
+ */
+@Override
+protected void onStart() {
+    super.onStart();
+    textBanner.startAutoPlay();
+    customTextBanner.startAutoPlay();
+}
+
+@Override
+protected void onStop() {
+    super.onStop();
+    textBanner.stopAutoPlay();
+    customTextBanner.stopAutoPlay();
+}
 ```
 
 ### 属性说明

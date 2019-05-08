@@ -18,6 +18,8 @@ import me.haowen.textbanner.adapter.BaseAdapter;
  */
 public class CustomAdapter extends BaseAdapter<Pair<String, String>> {
 
+    private OnItemClickListener mItemClickListener;
+
     public CustomAdapter(Context context, List<Pair<String, String>> data) {
         super(context, data);
     }
@@ -28,7 +30,7 @@ public class CustomAdapter extends BaseAdapter<Pair<String, String>> {
     }
 
     @Override
-    public void onBindViewData(@NonNull View convertView, int position) {
+    public void onBindViewData(@NonNull View convertView, final int position) {
         TextView tvTag = convertView.findViewById(R.id.tvTag);
         TextView tvTitle = convertView.findViewById(R.id.tvTitle);
 
@@ -36,5 +38,33 @@ public class CustomAdapter extends BaseAdapter<Pair<String, String>> {
 
         tvTag.setText(itemModel.first);
         tvTitle.setText(itemModel.second);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(position);
+                }
+            }
+        });
+    }
+
+    /**
+     * 设置Item的点击事件
+     */
+    public void setItemClickListener(OnItemClickListener listener) {
+        this.mItemClickListener = listener;
+    }
+
+    /**
+     * Item的点击事件监听
+     */
+    public interface OnItemClickListener {
+        /**
+         * Item的点击事件
+         *
+         * @param position 位置
+         */
+        void onItemClick(int position);
     }
 }

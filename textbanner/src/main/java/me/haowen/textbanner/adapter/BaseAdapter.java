@@ -19,6 +19,17 @@ public abstract class BaseAdapter<T> extends TextBanner.Adapter {
      */
     protected List<T> mData;
     protected LayoutInflater mInflater;
+    protected Context mContext;
+
+    public BaseAdapter(Context context, List<T> data) {
+        this(context);
+        this.mData = data;
+    }
+
+    public BaseAdapter(Context context) {
+        this.mContext = context;
+        mInflater = LayoutInflater.from(context);
+    }
 
     /**
      * 设置数据并通知更新
@@ -38,15 +49,6 @@ public abstract class BaseAdapter<T> extends TextBanner.Adapter {
      */
     public T getItem(int position) {
         return mData.get(position);
-    }
-
-    public BaseAdapter(Context context) {
-        mInflater = LayoutInflater.from(context);
-    }
-
-    public BaseAdapter(Context context, List<T> data) {
-        mInflater = LayoutInflater.from(context);
-        this.mData = data;
     }
 
     @Override
