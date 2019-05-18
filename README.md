@@ -6,7 +6,7 @@
 
 ## 应用截图
 
-<img src="https://github.com/HaowenLee/TextBanner/blob/master/images/text_banner.gif" width="360" alt="TextBanner效果图"/>
+<img src="https://github.com/HaowenLee/TextBanner/blob/master/atrs/text_banner.gif" width="360" alt="TextBanner效果图"/>
 
 #### 步骤 1. 将JitPack存储库添加到构建文件中
 
@@ -25,7 +25,7 @@ allprojects {
 
 ```
 dependencies {
-        implementation 'com.github.HaowenLee:TextBanner:1.0.1'
+        implementation 'com.github.HaowenLee:TextBanner:1.0.2'
 }
 
 ```
