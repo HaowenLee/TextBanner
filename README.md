@@ -2,7 +2,7 @@
 
 [![JitPack](https://jitpack.io/v/HaowenLee/TextBanner.svg)](https://jitpack.io/#HaowenLee/TextBanner)
 
-文字轮播滚动切换
+文字轮播切换控件
 
 ## 应用截图
 
