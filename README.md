@@ -8,29 +8,16 @@
 
 <img src="https://raw.githubusercontent.com/HaowenLee/TextBanner/master/arts/text_banner.gif" width="360" alt="TextBanner效果图"/>
 
-#### 步骤 1. 将JitPack存储库添加到构建文件中
-
-将其添加到存储库末尾的根build.gradle中：
-
-```
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-#### 步骤 2. 在module的build.gradle添加依赖项
+#### 步骤 1. 在module的build.gradle添加依赖项
 
 ```
 dependencies {
-        implementation 'com.github.HaowenLee:TextBanner:1.0.2'
+        implementation 'com.haowen:textbanner:1.0.3'
 }
 
 ```
 
-#### 步骤 3. 在布局文件中添加BannerViewPager和IndicatorLayout，可以设置自定义属性
+#### 步骤 2. 在布局文件中添加BannerViewPager和IndicatorLayout，可以设置自定义属性
 
 ```
 <me.haowen.textbanner.TextBanner
@@ -43,13 +30,13 @@ dependencies {
     app:duration="800" />
 ```
 
-#### 步骤 4. 在Activity或者Fragment中配置Adapter
+#### 步骤 3. 在Activity或者Fragment中配置Adapter
 
 ```
 textBanner.setAdapter(new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArray)));
 ```
 
-#### 步骤 5. 增加体验（可选）
+#### 步骤 4. 增加体验（可选）
 
 ```
 /**

@@ -1,4 +1,4 @@
-package me.haowen.sample.adapter;
+package com.sample.textbanner.adapter;
 
 import android.content.Context;
 import android.util.Pair;
@@ -8,9 +8,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.sample.textbanner.R;
+
 import java.util.List;
 
-import me.haowen.sample.R;
 import me.haowen.textbanner.adapter.BaseAdapter;
 
 /**

@@ -1,17 +1,18 @@
-package me.haowen.sample;
+package com.sample.textbanner;
 
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.sample.textbanner.adapter.CustomAdapter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import me.haowen.sample.adapter.CustomAdapter;
 import me.haowen.textbanner.TextBanner;
 import me.haowen.textbanner.adapter.SimpleTextBannerAdapter;
 
