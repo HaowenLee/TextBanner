@@ -20,7 +20,7 @@ dependencies {
 
 ```
 
-#### 步骤 2. 在布局文件中添加BannerViewPager和IndicatorLayout，可以设置自定义属性
+#### 步骤 2. 在布局文件中添加TextBanner，可以设置自定义属性
 
 ```
 <me.haowen.textbanner.TextBanner
