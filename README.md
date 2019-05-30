@@ -9,7 +9,7 @@
 
 ## 应用截图
 
-<img src="https://raw.githubusercontent.com/HaowenLee/TextBanner/master/arts/text_banner.gif" width="360" alt="TextBanner效果图"/>
+<img src="https://raw.githubusercontent.com/HaowenLee/TextBanner/master/arts/text_banner.gif" width="300" alt="TextBanner效果图"/>
 
 #### 步骤 1. 在module的build.gradle添加依赖项
 
