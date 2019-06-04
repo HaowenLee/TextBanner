@@ -6,8 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,7 @@ public class TextBanner extends FrameLayout {
     /**
      * 当前的位置索引
      */
-    private int currentPosition = 0;
+    private int mCurrentPosition = 0;
     /**
      * 停留时长
      */
@@ -41,7 +40,7 @@ public class TextBanner extends FrameLayout {
     /**
      * 动画（出现、消失）
      */
-    private Animation animAppear, animDisappear;
+    private Animation mAnimIn, mAnimOut;
     /**
      * 数据适配器
      */
@@ -73,32 +72,19 @@ public class TextBanner extends FrameLayout {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextBanner, defStyleAttr, 0);
             mDuration = a.getInteger(R.styleable.TextBanner_duration, mDuration);
             mDelayTime = a.getInteger(R.styleable.TextBanner_delayTime, mDelayTime);
+            int animInResId = a.getResourceId(R.styleable.TextBanner_animIn, R.anim.com_haowen_textbanner_view_anim_in);
+            int animOutResId = a.getResourceId(R.styleable.TextBanner_animOut, R.anim.com_haowen_textbanner_view_anim_out);
             a.recycle();
+            // 获取动画
+            mAnimIn = AnimationUtils.loadAnimation(getContext(), animInResId);
+            mAnimOut = AnimationUtils.loadAnimation(getContext(), animOutResId);
+            // 默认的动画资源ID
+            if (animInResId == R.anim.com_haowen_textbanner_view_anim_in &&
+                    animOutResId == R.anim.com_haowen_textbanner_view_anim_out) {
+                mAnimIn.setDuration(mDuration);
+                mAnimOut.setDuration(mDuration);
+            }
         }
-        initAnimation();
-    }
-
-    /**
-     * 初始化动画
-     */
-    private void initAnimation() {
-        animAppear = newAnimation(0, -1);
-        animDisappear = newAnimation(1, 0);
-    }
-
-    /**
-     * 生成动画
-     *
-     * @param fromYValue 起始值
-     * @param toYValue   结束值
-     * @return 动画
-     */
-    private Animation newAnimation(float fromYValue, float toYValue) {
-        Animation anim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, fromYValue, Animation.RELATIVE_TO_SELF, toYValue);
-        anim.setDuration(mDuration);
-        anim.setInterpolator(new DecelerateInterpolator());
-        return anim;
     }
 
     /**
@@ -130,7 +116,7 @@ public class TextBanner extends FrameLayout {
             return;
         }
         createViews();
-        bindViewData(viewFirst, currentPosition);
+        bindViewData(viewFirst, mCurrentPosition);
         if (mAdapter.getCount() < SIZE) {
             return;
         }
@@ -150,7 +136,7 @@ public class TextBanner extends FrameLayout {
         clearAnimation();
         removeAllViews();
         stopAutoPlay();
-        currentPosition = 0;
+        mCurrentPosition = 0;
     }
 
     /**
@@ -196,13 +182,13 @@ public class TextBanner extends FrameLayout {
         if (mAdapter.getCount() == 0) {
             return;
         }
-        currentPosition++;
-        if (currentPosition % SIZE == 0) {
-            bindViewData(viewFirst, currentPosition % mAdapter.getCount());
+        mCurrentPosition++;
+        if (mCurrentPosition % SIZE == 0) {
+            bindViewData(viewFirst, mCurrentPosition % mAdapter.getCount());
             startAnimation(viewFirst, viewSecond);
             this.bringChildToFront(viewSecond);
         } else {
-            bindViewData(viewSecond, currentPosition % mAdapter.getCount());
+            bindViewData(viewSecond, mCurrentPosition % mAdapter.getCount());
             startAnimation(viewSecond, viewFirst);
             this.bringChildToFront(viewFirst);
         }
@@ -220,25 +206,25 @@ public class TextBanner extends FrameLayout {
     /**
      * 动画
      *
-     * @param showView    出现的View
-     * @param dismissView 隐藏的View
+     * @param appearView    出现的View
+     * @param disappearView 隐藏的View
      */
-    private void startAnimation(final View showView, final View dismissView) {
+    private void startAnimation(final View appearView, final View disappearView) {
         // 出现
-        showView.startAnimation(animDisappear);
-        showView.setVisibility(VISIBLE);
+        appearView.startAnimation(mAnimIn);
+        appearView.setVisibility(VISIBLE);
 
         // 消失
-        dismissView.startAnimation(animAppear);
-        dismissView.setVisibility(VISIBLE);
-        animAppear.setAnimationListener(new Animation.AnimationListener() {
+        disappearView.startAnimation(mAnimOut);
+        disappearView.setVisibility(VISIBLE);
+        mAnimIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                dismissView.setVisibility(GONE);
+                disappearView.setVisibility(GONE);
             }
 
             @Override

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="me.haowen.sample.me.sample.sample.HomeActivity">
+    tools:context=".HomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,6 +56,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
+            app:animIn="@anim/anim_in"
+            app:animOut="@anim/anim_out"
             app:delayTime="2000"
             app:duration="500" />
 

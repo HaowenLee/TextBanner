@@ -61,7 +61,8 @@ public class HomeActivity extends AppCompatActivity {
      * 简单的Adapter
      */
     private void initSimpleAdapter() {
-        final SimpleTextBannerAdapter simpleAdapter = new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArray));
+        final SimpleTextBannerAdapter simpleAdapter = new SimpleTextBannerAdapter(this,
+                R.layout.item_text_banner_simple, Arrays.asList(hotWordArray));
         textBanner.setAdapter(simpleAdapter);
 
         textBanner.setOnClickListener(new View.OnClickListener() {

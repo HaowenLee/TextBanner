@@ -1,7 +1,7 @@
 # TextBanner
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.3-5bc0de.svg)](https://bintray.com/haowen/maven/textbanner/_latestVersion)
+[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.4-5bc0de.svg)](https://bintray.com/haowen/maven/textbanner/_latestVersion)
 [![JitPack](https://jitpack.io/v/HaowenLee/TextBanner.svg)](https://jitpack.io/#HaowenLee/TextBanner)
 [![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014+%20-f0ad4e.svg)](https://android-arsenal.com/api?level=14)
 
@@ -15,9 +15,8 @@
 
 ```
 dependencies {
-        implementation 'com.haowen:textbanner:1.0.3'
+        implementation 'com.haowen:textbanner:1.0.4'
 }
-
 ```
 
 #### 步骤 2. 在布局文件中添加TextBanner，可以设置自定义属性
@@ -35,9 +34,24 @@ dependencies {
 
 #### 步骤 3. 在Activity或者Fragment中配置Adapter
 
+1. 简单布局SimpleTextBannerAdapter
+
 ```
-textBanner.setAdapter(new SimpleTextBannerAdapter(this, Arrays.asList(hotWordArray)));
+/**
+ * 简单的TextBanner适配器（只含有一个TextView）
+ *
+ * @param context     上下文
+ * @param layoutResId 布局资源ID
+ * @param data        字符串列表数据源
+ */
+SimpleTextBannerAdapter simpleAdapter = new SimpleTextBannerAdapter(this,
+        R.layout.item_text_banner_simple, Arrays.asList(hotWordArray));
+textBanner.setAdapter(simpleAdapter);
 ```
+
+2. 自定义布局
+
+继承BaseAdapter实现自己的Adapter
 
 #### 步骤 4. 增加体验（可选）
 
@@ -62,7 +76,9 @@ protected void onStop() {
 
 ### 属性说明
 
-| 名称 | 格式 | 描述 |
-| ------ | ------ | ------ |
-| duration | int | 切换动画的时长（单位毫秒） |
-| delayTime | int | 停留时长（单位毫秒） |
+| 名称 | 格式 | 描述 | 示例 |
+| ------ | ------ | ------ | ------ |
+| duration | integer | 切换动画的时长（单位毫秒） | 800 |
+| delayTime | integer | 停留时长（单位毫秒） | 5000 |
+| animIn | reference | View进入动画资源ID | @anim/anim_in |
+| animOut | reference | View消失动画资源ID | @anim/anim_out |

@@ -3,5 +3,7 @@
     <declare-styleable name="TextBanner">
         <attr name="duration" format="integer" />
         <attr name="delayTime" format="integer" />
+        <attr name="animIn" format="reference" />
+        <attr name="animOut" format="reference" />
     </declare-styleable>
 </resources>

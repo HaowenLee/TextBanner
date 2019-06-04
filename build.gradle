@@ -28,7 +28,7 @@ task clean(type: Delete) {
 ext {
     userOrg = 'haowen'
     groupId = 'com.haowen'
-    publishVersion = '1.0.3'
+    publishVersion = '1.0.4'
     desc = 'A text banner usually used for search text and short information.'
     website = 'https://github.com/HaowenLee/TextBanner'
     licences = ['Apache-2.0']
