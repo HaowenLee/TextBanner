@@ -34,7 +34,7 @@ dependencies {
 
 #### 步骤 3. 在Activity或者Fragment中配置Adapter
 
-1. 简单布局SimpleTextBannerAdapter
+- 简单布局SimpleTextBannerAdapter
 
 ```
 /**
@@ -49,7 +49,7 @@ SimpleTextBannerAdapter simpleAdapter = new SimpleTextBannerAdapter(this,
 textBanner.setAdapter(simpleAdapter);
 ```
 
-2. 自定义布局
+- 自定义布局
 
 继承BaseAdapter实现自己的Adapter
 
