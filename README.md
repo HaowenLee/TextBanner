@@ -1,8 +1,8 @@
 # TextBanner
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![JitPack](https://jitpack.io/v/HaowenLee/TextBanner.svg)](https://jitpack.io/#HaowenLee/TextBanner)
 [![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.3-5bc0de.svg)](https://bintray.com/haowen/maven/textbanner/_latestVersion)
+[![JitPack](https://jitpack.io/v/HaowenLee/TextBanner.svg)](https://jitpack.io/#HaowenLee/TextBanner)
 [![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014+%20-f0ad4e.svg)](https://android-arsenal.com/api?level=14)
 
 文字轮播切换控件
